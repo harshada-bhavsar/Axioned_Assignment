@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Pagination from "./Components/Pagination";
 import SearchFilter from "./Components/SearchFilter";
 import CategorySelect from "./Components/CategorySelect";
-import SortSelect from "./Components/SortSelect"; // ✅ Import SortSelect
+import SortSelect from "./Components/SortSelect";
 import axios from "axios";
 import DataList from "./Components/DataList";
 
@@ -16,9 +16,14 @@ const App = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [sortBy, setSortBy] = useState(""); // ✅ New state for sorting
+  const [sortBy, setSortBy] = useState("");
 
   const itemsPerPage = 10;
+
+  // Reset page when category or sortBy changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [category, sortBy]);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -30,7 +35,7 @@ const App = () => {
 
         let fetchedNews = response.data.articles || [];
 
-        // ✅ Apply sorting logic
+        // Apply sorting logic
         if (sortBy === "id") {
           fetchedNews.sort((a, b) => (a.publishedAt > b.publishedAt ? 1 : -1));
         } else if (sortBy === "title") {
@@ -50,14 +55,21 @@ const App = () => {
     };
 
     fetchNews();
-  }, [category, searchQuery, currentPage, sortBy]); // ✅ Added `sortBy` to dependencies
+  }, [category, searchQuery, currentPage, sortBy]);
+
+  // Function to handle page change
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-center mb-6">📰 News App</h1>
 
-      {/* Filters (Search, Category, Sort) */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-2 mb-4">
+      {/* Filters */}
+      <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
         <SearchFilter setSearchQuery={setSearchQuery} />
         <CategorySelect setCategory={setCategory} />
         <SortSelect setSortBy={setSortBy} />
@@ -71,11 +83,9 @@ const App = () => {
           <DataList news={news} />
           {news.length > 0 && (
             <Pagination
-              totalItems={news.length}
-              itemsPerPage={itemsPerPage}
               currentPage={currentPage}
               totalPages={totalPages}
-              setCurrentPage={setCurrentPage}
+              onPageChange={handlePageChange}
             />
           )}
         </>

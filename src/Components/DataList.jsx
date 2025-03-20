@@ -43,7 +43,7 @@ const DataList = ({ news }) => {
                   Read More
                 </button>
 
-                {/* ✅ Read Full Article Button - Opens the full article in a new tab */}
+                {/* Read Full Article Button - Opens the full article in a new tab */}
                 <a
                   href={item.url}
                   target="_blank"
