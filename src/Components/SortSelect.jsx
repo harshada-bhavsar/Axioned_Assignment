@@ -13,8 +13,8 @@ const SortSelect = ({ setSortBy }) => {
       <select
         value={selectedSort}
         onChange={handleSortChange}
-        className="bg-white border border-gray-300 w-48 py-2 px-4 rounded-lg shadow-sm 
-                   hover:bg-gray-100 transition-all duration-300"
+        className="py-2 px-3 border border-gray-300 rounded-md shadow-sm 
+                   hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 transition-all duration-300"
       >
         <option value="">Sort By</option>
         <option value="id">ID</option>

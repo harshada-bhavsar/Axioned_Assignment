@@ -1,8 +1,6 @@
-import React from "react";
-
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
-    <div className="flex flex-wrap justify-center items-center gap-2 mt-6">
+    <div className="flex justify-center items-center gap-3 mt-6">
       <button
         onClick={() => onPageChange(1)}
         disabled={currentPage === 1}
