@@ -21,14 +21,15 @@ const App = () => {
     const fetchNews = async () => {
       setLoading(true);
       try {
-        const API_KEY = "a8ffacca236446ad837993cffd12e954";
+        const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
         const response = await axios.get(
           `https://newsapi.org/v2/top-headlines?category=${category}&q=${searchQuery}&page=${currentPage}&pageSize=${pageSize}&apiKey=${API_KEY}`
         );
 
         let fetchedNews = response.data.articles || [];
 
-      
+        console.log("Fetched articles:", fetchedNews.length); 
+
         if (sortBy === "id") {
           fetchedNews.sort((a, b) => (a.source.id || "").localeCompare(b.source.id || ""));
         } else if (sortBy === "title") {
@@ -56,22 +57,19 @@ const App = () => {
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
         <SearchFilter setSearchQuery={setSearchQuery} />
         <CategorySelect setCategory={setCategory} />
-        <SortSelect setSortBy={setSortBy} />  {/* Add sorting dropdown */}
+        <SortSelect setSortBy={setSortBy} />
       </div>
 
-      {/* Show loading state */}
       {loading ? (
         <p className="text-center text-gray-600">Fetching news...</p>
       ) : (
         <>
-          {/* Render News List */}
           {news.length > 0 ? (
             <ItemDetails news={news} />
           ) : (
             <p className="text-center text-gray-600">No news available...</p>
           )}
 
-          {/* Render Pagination */}
           {news.length > 0 && (
             <Pagination
               currentPage={currentPage}
@@ -86,4 +84,3 @@ const App = () => {
 };
 
 export default App;
- 

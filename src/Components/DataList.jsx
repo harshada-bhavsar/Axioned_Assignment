@@ -3,7 +3,7 @@ import axios from "axios";
 import Pagination from "./Pagination";
 import ItemDetails from "./ItemDetails";
 
-const API_KEY = "a8ffacca236446ad837993cffd12e954";
+const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 const BASE_URL = "https://newsapi.org/v2/top-headlines";
 
 const DataList = ({ category, searchQuery }) => {
@@ -49,7 +49,6 @@ const DataList = ({ category, searchQuery }) => {
             className="bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer transition-all duration-300 
                       hover:shadow-2xl hover:scale-105 border border-gray-200 hover:border-blue-400"
           >
-            {/* Only Show Image if Available */}
             {item.urlToImage && (
               <div className="relative w-full">
                 <img
@@ -57,12 +56,10 @@ const DataList = ({ category, searchQuery }) => {
                   alt={item.title}
                   className="w-full h-48 object-cover"
                 />
-                {/* Gradient Overlay on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
               </div>
             )}
 
-            {/* Content - Adjust height dynamically */}
             <div className="p-4 flex flex-col flex-grow">
               <h3 className="text-lg font-semibold text-gray-800">
                 {item.title}
@@ -71,7 +68,6 @@ const DataList = ({ category, searchQuery }) => {
                 {item.description || "No description available."}
               </p>
 
-              {/* Buttons - Pushed to bottom */}
               <div className="mt-auto flex justify-between pt-4">
                 <button
                   onClick={() => setSelectedNews(item)}
