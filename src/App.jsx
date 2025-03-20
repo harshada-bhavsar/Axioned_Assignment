@@ -24,7 +24,7 @@ const App = () => {
         const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
         const response = await axios.get(
           `https://newsapi.org/v2/top-headlines?category=${category}&q=${searchQuery}&page=${currentPage}&pageSize=${pageSize}&apiKey=${API_KEY}`
-        );
+        );        
 
         let fetchedNews = response.data.articles || [];
 
